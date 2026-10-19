@@ -7,7 +7,7 @@ permissions:
   contents: read
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,6 +20,11 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - name: Cache locked Quartz plugins
+        uses: actions/cache@v4
+        with:
+          path: .quartz/plugins
+          key: quartz-plugins-${{ runner.os }}-${{ hashFiles('quartz.lock.json', 'package-lock.json') }}
       - name: Install locked Quartz plugins
         run: node quartz/bootstrap-cli.mjs plugin install
       - name: Check intended Pages address
