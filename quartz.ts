@@ -10,8 +10,12 @@ import {
 import { blog } from "./blog.settings"
 import { QuartzComponent } from "./quartz/components/types"
 import { PageTypeDispatcher } from "./quartz/plugins/pageTypes"
+import { SyncerScopedLinks } from "./quartz/plugins/transformers/syncerLinks"
 
 const config = await loadQuartzConfig({ pageTitle: blog.title, baseUrl: blog.baseUrl || undefined })
+// Scoped Syncer copies need their link root restored before standard link processing.
+const linkIndex = config.plugins.transformers.findIndex((t) => t.name === "LinkProcessing")
+config.plugins.transformers.splice(linkIndex < 0 ? 0 : linkIndex, 0, SyncerScopedLinks())
 export default config
 const base = await loadQuartzLayout()
 const BlogHead: QuartzComponent = (p) =>
