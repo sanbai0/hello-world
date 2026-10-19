@@ -48,6 +48,7 @@ export default (() => {
           </>
         )}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="blog-search-index" content={joinSegments(baseDir, "static/contentIndex.json")} />
 
         <meta name="og:site_name" content={cfg.pageTitle}></meta>
         <meta property="og:title" content={title} />

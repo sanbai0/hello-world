@@ -11,6 +11,8 @@ import { blog } from "./blog.settings"
 import { QuartzComponent } from "./quartz/components/types"
 import { PageTypeDispatcher } from "./quartz/plugins/pageTypes"
 import { SyncerScopedLinks } from "./quartz/plugins/transformers/syncerLinks"
+import { componentRegistry } from "./quartz/components/registry"
+import { scopeSearchPaths } from "./quartz/components/searchPaths"
 
 const config = await loadQuartzConfig({ pageTitle: blog.title, baseUrl: blog.baseUrl || undefined })
 // Scoped Syncer copies need their link root restored before standard link processing.
@@ -18,6 +20,16 @@ const linkIndex = config.plugins.transformers.findIndex((t) => t.name === "LinkP
 config.plugins.transformers.splice(linkIndex < 0 ? 0 : linkIndex, 0, SyncerScopedLinks())
 export default config
 const base = await loadQuartzLayout()
+// Upstream search assumes a domain-root site. Use per-page metadata for both
+// localhost preview and the GitHub Pages project URL, including result previews.
+for (const component of new Set([
+  ...componentRegistry.getAllComponents(),
+  ...(base.defaults.left ?? []),
+])) {
+  if (component.name === "Search" && typeof component.afterDOMLoaded === "string") {
+    component.afterDOMLoaded = scopeSearchPaths(component.afterDOMLoaded)
+  }
+}
 const BlogHead: QuartzComponent = (p) =>
   base.defaults.head!({
     ...p,

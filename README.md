@@ -1,8 +1,8 @@
-# 郭鑫的学习笔记
+# Build & Learn
 
 独立的 Quartz 5 技术博客，以文章为中心，支持多标签、摘要、日期、少量置顶、归档、搜索、明暗主题和手机阅读。
 
-**已上线：[郭鑫的学习笔记](https://sanbai0.github.io/hello-world/)。原版 Quartz Syncer 2.2.0 的实际发布、同路径更新、改名及撤稿已验收；博客使用 main，旧 master 保留。**
+**已上线：[Build & Learn](https://sanbai0.github.io/hello-world/)。原版 Quartz Syncer 2.2.0 的实际发布、同路径更新、改名及撤稿已验收；博客使用 main，旧 master 保留。**
 
 ## 预览
 
