@@ -1,0 +1,144 @@
+configuration:
+  pageTitle: 郭鑫的学习笔记
+  pageTitleSuffix: ""
+  enableSPA: false
+  enablePopovers: false
+  analytics: null
+  locale: zh-CN
+  baseUrl: ""
+  ignorePatterns:
+    - private
+    - templates
+    - .obsidian
+    - "**/.obsidian/**"
+  defaultDateType: created
+  theme:
+    fontOrigin: local
+    cdnCaching: false
+    typography:
+      header: Microsoft YaHei
+      body: Microsoft YaHei
+      code: Consolas
+    colors:
+      lightMode:
+        light: "#fafbf8"
+        lightgray: "#e2e7df"
+        gray: "#727e73"
+        darkgray: "#526057"
+        dark: "#23372d"
+        secondary: "#2f6751"
+        tertiary: "#47765f"
+        highlight: "#eaf0e7"
+        textHighlight: "#dbe9cf"
+      darkMode:
+        light: "#171e1a"
+        lightgray: "#303d34"
+        gray: "#9aa79d"
+        darkgray: "#b8c3ba"
+        dark: "#e6ede5"
+        secondary: "#9ac6a6"
+        tertiary: "#b3d2b9"
+        highlight: "#25372b"
+        textHighlight: "#3a5340"
+plugins:
+  - source: github:quartz-community/note-properties
+    enabled: true
+    order: 5
+    options:
+      includeAll: false
+      includedProperties:
+        - description
+        - tags
+        - aliases
+      hidePropertiesView: true
+  - source: github:quartz-community/created-modified-date
+    enabled: true
+    options:
+      priority:
+        - frontmatter
+        - git
+        - filesystem
+    order: 10
+  - source: github:quartz-community/syntax-highlighting
+    enabled: true
+    options:
+      theme:
+        light: github-light
+        dark: github-dark
+      keepBackground: false
+    order: 20
+  - source: github:quartz-community/obsidian-flavored-markdown
+    enabled: true
+    options:
+      enableInHtmlEmbed: false
+      enableCheckbox: true
+      mermaid: false
+      enableYouTubeEmbed: false
+      enableTweetEmbed: false
+      enableVideoEmbed: false
+      enableObsidianUri: false
+    order: 30
+  - source: github:quartz-community/github-flavored-markdown
+    enabled: true
+    order: 40
+  - source: github:quartz-community/table-of-contents
+    enabled: true
+    order: 50
+  - source: github:quartz-community/crawl-links
+    enabled: true
+    options:
+      markdownLinkResolution: shortest
+    order: 60
+  - source: github:quartz-community/description
+    enabled: true
+    order: 70
+  - source: github:quartz-community/latex
+    enabled: true
+    options:
+      renderEngine: mathjax
+    order: 80
+  - source: github:quartz-community/remove-draft
+    enabled: true
+  - source: github:quartz-community/explicit-publish
+    enabled: true
+  - source: github:quartz-community/alias-redirects
+    enabled: true
+  - source: github:quartz-community/content-index
+    enabled: true
+    options:
+      enableSiteMap: true
+      enableRSS: true
+  - source: github:quartz-community/favicon
+    enabled: true
+  - source: github:quartz-community/content-page
+    enabled: true
+  - source: github:quartz-community/folder-page
+    enabled: true
+  - source: github:quartz-community/tag-page
+    enabled: true
+  - source: github:quartz-community/search
+    enabled: true
+    layout:
+      position: left
+      priority: 10
+  - source: github:quartz-community/article-title
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 10
+  - source: github:quartz-community/content-meta
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 20
+  - source: github:quartz-community/tag-list
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 30
+  - source: github:quartz-community/darkmode
+    enabled: true
+    layout:
+      position: left
+      priority: 20
+layout: {}

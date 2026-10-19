@@ -1,0 +1,21 @@
+{
+  "notesPrefix": "学习总结/",
+  "sitePages": ["index.md", "archive.md", "about.md"],
+  "allowedFrontmatter": [
+    "title",
+    "description",
+    "date",
+    "created",
+    "modified",
+    "updated",
+    "published",
+    "publish",
+    "tags",
+    "pinned",
+    "cssclasses",
+    "aliases",
+    "draft",
+    "enableToc"
+  ],
+  "approvedMedia": ["assets/公开测试图.svg"]
+}
