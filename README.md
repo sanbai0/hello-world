@@ -2,7 +2,7 @@
 
 独立的 Quartz 5 技术博客，以文章为中心，支持多标签、摘要、日期、少量置顶、归档、搜索、明暗主题和手机阅读。
 
-**当前状态：本地博客与原版 Quartz Syncer 2.2.0 已安装配置；目标仓库为 sanbai0/hello-world，真实笔记未读取，首次推送与公开部署等待 Git 写入授权。**
+**当前状态：博客源码已推送至 sanbai0/hello-world 的 main，旧 master 保留；原版 Quartz Syncer 2.2.0 已安装启用，永久仓库令牌已接入并通过读写连接测试。公开部署与完整插件验收结果见验收记录。**
 
 ## 预览
 
@@ -15,9 +15,9 @@ cd C:\Users\admin\Desktop\guoxin\jl-blog
 
 名称、简介、可选 GitHub 链接和未来的 Pages 地址集中在 `blog.settings.ts`。
 
-发布方式已确定：使用原版 Quartz Syncer 2.2.0 直接发布到 GitHub。日常只需在原库写作、设置 `publish: true`、到发布中心选择并确认；GitHub Actions 自动更新网站。无需额外本地审核或手动推送，也不修改插件。插件安装及首次公开范围已获确认，尚未完成实际上线。
+使用原版 Quartz Syncer 2.2.0 直接发布到 GitHub。日常在原库写作、设置 `publish: true`、到发布中心选择并确认；GitHub Actions 自动更新网站。无需额外本地审核或手动推送，也不修改插件。插件安装及首次公开范围已获确认。
 
-预计 Pages 地址：`https://sanbai0.github.io/hello-world/`。原 master 分支及历史保留，博客使用新 main 分支。插件只管理 `content/学习总结`，避免把首页、归档和关于页列入撤稿。
+Pages 地址：`https://sanbai0.github.io/hello-world/`。原 master 分支及历史保留，博客使用新 main 分支。插件只管理 `content/学习总结`，避免把首页、归档和关于页列入撤稿。
 
 `npm run audit:content` 保留为可选的严格结构诊断，不参与预览、构建或部署，不需要逐张维护附件清单。
 

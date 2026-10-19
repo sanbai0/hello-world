@@ -6,11 +6,11 @@
 
 目标库：`C:\Users\admin\Documents\Obsidian Vault`。发布正文仅限其中 `学习总结`。用户报告 Obsidian 版本 1.14.4。
 
-用户已确认安装，以下文件及设置已写入；尚未配置令牌、启动插件验收或上传笔记：
+用户已确认安装，以下文件及设置已写入；插件已加载，令牌已接入，官方连接测试确认 readAccess、writeAccess、credentialVerified 均为 true。完整发布生命周期验收见验收记录：
 
 1. 从 `saberzero1/quartz-syncer` 官方 2.2.0 release 安装原版 `main.js`、`manifest.json`、`styles.css`，写入该库 `.obsidian/plugins/quartz-syncer/`。不修改插件源码。
 2. 备份并在 `.obsidian/community-plugins.json` 中加入 `quartz-syncer`，保留已有插件；只读取及修改这份插件列表和 Quartz Syncer 自己的配置，不读取其他插件的 data.json。
-3. 在 Quartz Syncer 自己的 `data.json` 中写非敏感设置，见下表。GitHub 账号已确认为 sanbai0，仓库 hello-world；令牌由用户在插件官方配置界面输入，不进入聊天、源码或 Git。
+3. 在 Quartz Syncer 自己的 `data.json` 中写非敏感设置，见下表。GitHub 账号为 sanbai0，仓库 hello-world；永久令牌通过本机内存通道交给原版 SecretStorage，不进入聊天、源码、data.json 或 Git。插件报告可选 Electron 加密层未启用，不能把此环境描述为插件加密存储。
 
 | 设置                                    | 值                                           |
 | --------------------------------------- | -------------------------------------------- |
@@ -40,4 +40,4 @@ Remotely Save、坚果云、已有同步凭据及原笔记正文不在修改范�
 
 在原有学习总结里写作或修改 → 设置 `publish: true` → 发布中心选中新增/修改/撤稿并确认 → 插件直接更新 GitHub → Actions 更新博客。无需另存笔记、维护图片清单或手动推送文章。被引用附件按原版规则随文章处理。
 
-第一次公开范围已确认：目标为 sanbai0/hello-world，新 main 分支保留原 master；三篇测试文章和关于页占位保留。当前等待 Git 写入授权，插件日常令牌也还未输入。参考 [公开清单](首次公开清单.md)。
+第一次公开范围已确认：目标为 sanbai0/hello-world，新 main 分支保留原 master；三篇测试文章和关于页占位保留。Git 写入与插件令牌已配置，令牌不设过期日，权限仅 Contents 读写和 Metadata 只读。参考 [公开清单](首次公开清单.md)。
