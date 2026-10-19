@@ -6,7 +6,7 @@
 
 目标库：`C:\Users\admin\Documents\Obsidian Vault`。发布正文仅限其中 `学习总结`。用户报告 Obsidian 版本 1.14.4。
 
-用户已确认安装，以下文件及设置已写入；插件已加载，令牌已接入，官方连接测试确认 readAccess、writeAccess、credentialVerified 均为 true。完整发布生命周期验收见验收记录：
+用户已确认安装，以下文件及设置已写入；插件已加载、令牌已接入，连接测试和实际新增、同路径更新、改名、撤稿均通过。验收使用官方 CLI 调用原版发布中心的选择及发布/删除处理接口，真实经过元数据、缓存、Git、Actions 和公开网站，没有修改插件源码。详见验收记录：
 
 1. 从 `saberzero1/quartz-syncer` 官方 2.2.0 release 安装原版 `main.js`、`manifest.json`、`styles.css`，写入该库 `.obsidian/plugins/quartz-syncer/`。不修改插件源码。
 2. 备份并在 `.obsidian/community-plugins.json` 中加入 `quartz-syncer`，保留已有插件；只读取及修改这份插件列表和 Quartz Syncer 自己的配置，不读取其他插件的 data.json。
@@ -32,9 +32,13 @@
 
 以上是原版已有设置，不添加审核插件、补丁、定时任务或保存即上传。2.2.0 没有 Apply embeds 设置，不伪造或写入该键。
 
+验收期间临时启用了原版内置测试接口，完成后已关闭；重新加载后确认插件仍有凭据，autoPublish=false，待处理队列为0。普通命令 `Quartz Syncer: Open Publication Center`（ID 为 `quartz-syncer:open-publish-modal`）可用。
+
 Remotely Save、坚果云、已有同步凭据及原笔记正文不在修改范围。原社区插件列表已单独备份到项目忽略目录 `.local-tools/obsidian-backups/`，已有条目顺序和内容均保留。三个原版发布文件已逐一对照 GitHub release 的 SHA-256，安装后再次校验一致。
 
 输出目录采用 `content/学习总结`：原版会剥离来源目录前缀，再拼接输出目录，所以原库 `学习总结/文章.md` 正好映射到 `content/学习总结/文章.md`。首页、归档、关于及站点素材位于插件管理范围外，不会成为它的远端撤稿候选。
+
+子目录图片和双链的来源前缀也会被剥离，因此本站在 Quartz 构建端恢复已存在公开副本的路径，再交给标准链接处理器。该适配不读取原库、不改上传文件、不展开未公开正文，也不增加日常操作。
 
 ## 接通后日常操作
 

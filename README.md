@@ -2,7 +2,7 @@
 
 独立的 Quartz 5 技术博客，以文章为中心，支持多标签、摘要、日期、少量置顶、归档、搜索、明暗主题和手机阅读。
 
-**当前状态：博客源码已推送至 sanbai0/hello-world 的 main，旧 master 保留；原版 Quartz Syncer 2.2.0 已安装启用，永久仓库令牌已接入并通过读写连接测试。公开部署与完整插件验收结果见验收记录。**
+**已上线：[郭鑫的学习笔记](https://sanbai0.github.io/hello-world/)。原版 Quartz Syncer 2.2.0 的实际发布、同路径更新、改名及撤稿已验收；博客使用 main，旧 master 保留。**
 
 ## 预览
 
@@ -18,6 +18,8 @@ cd C:\Users\admin\Desktop\guoxin\jl-blog
 使用原版 Quartz Syncer 2.2.0 直接发布到 GitHub。日常在原库写作、设置 `publish: true`、到发布中心选择并确认；GitHub Actions 自动更新网站。无需额外本地审核或手动推送，也不修改插件。插件安装及首次公开范围已获确认。
 
 Pages 地址：`https://sanbai0.github.io/hello-world/`。原 master 分支及历史保留，博客使用新 main 分支。插件只管理 `content/学习总结`，避免把首页、归档和关于页列入撤稿。
+
+三篇演示文章的写作源已放在原库“学习总结”中；临时生命周期测试文章已撤下并关闭 publish，原测试文件保留。博客构建端兼容 Syncer 剥离来源目录后的图片/双链路径；普通发文无需修改原文链接或写 JavaScript。
 
 `npm run audit:content` 保留为可选的严格结构诊断，不参与预览、构建或部署，不需要逐张维护附件清单。
 

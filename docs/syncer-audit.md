@@ -1,15 +1,15 @@
 # Quartz Syncer 核验与发布安全缺口
 
-核验日期：2026-10-19。此次仅读取官方源码、发布包和公开文档，使用合成数据测试；没有读取真实笔记、Obsidian 配置或同步凭据，没有安装插件或连接远端写入。
+核验日期：2026-10-19。下文保留安装前的官方源码、发布包和文档核验记录，使用合成数据；当时未安装或连接远端。后续实际接入已经完成，当前状态以 [验收记录](验收记录.md) 为准。
 
-后续接入进展：用户已确认安装，原版 2.2.0 已安装并填入非敏感设置；仅修改社区插件列表和该插件自己的配置，没有读取其他插件凭据或笔记正文。GitHub 目标为 sanbai0/hello-world，新 main 分支，输出范围为 content/学习总结。以下合成测试仍是安装前的源码核验证据。
+后续接入进展：原版 2.2.0 已安装、接入凭据，并完成真实发布、更新、改名、撤稿和 Pages 线上核验；没有读取其他插件凭据或真实笔记正文。GitHub 目标为 sanbai0/hello-world，新 main 分支，输出范围为 content/学习总结。以下九项合成测试仍仅是源码核验证据，不把它们当成后来实际端到端测试。
 
 **当前决定（2026-10-19）：用户了解以下附件行为后，选择直接使用原版 Quartz Syncer 2.2.0 远端发布，取消额外本地审核推送和提交前补丁要求。以下保留技术核验事实；历史补充方案不再是安装或发布的前置条件。**
 
 ## 版本、安装与兼容性
 
 - 官方最新稳定发布为 **2.2.0**（2026-09-30，非预发布）。[发布页](https://github.com/saberzero1/quartz-syncer/releases/tag/2.2.0)
-- 该版本要求 **Obsidian ≥ 1.13.0**，用户提供的 1.14.4 满足声明要求；尚未在用户 Obsidian 中安装实测。[manifest](https://github.com/saberzero1/quartz-syncer/blob/2.2.0/manifest.json#L5)
+- 该版本要求 **Obsidian ≥ 1.13.0**，用户提供的 1.14.4 满足声明要求，现已安装并完成合成笔记的真实流程验收。[manifest](https://github.com/saberzero1/quartz-syncer/blob/2.2.0/manifest.json#L5)
 - 官方说明 Quartz v5 支持完整功能；v4 支持文章和媒体发布，但配置管理、插件管理和升级不可用。[版本对应 README](https://github.com/saberzero1/quartz-syncer/blob/2.2.0/README.md)
 - 官方 Obsidian 社区插件登记中存在 `quartz-syncer`，仓库为 `saberzero1/quartz-syncer`。优先从 Obsidian 社区插件界面安装；手动安装仅使用该官方 release 的 `main.js`、`manifest.json`、`styles.css`。[社区登记](https://github.com/obsidianmd/obsidian-releases/blob/master/community-plugins.json)
 - 下载的官方 `main.js` SHA-256：`D8DA78F7F07D95A40F63305D871630E597EE9BF40F06F37B9FAC9C2713EB0359`。

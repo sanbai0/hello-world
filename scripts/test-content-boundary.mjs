@@ -3,9 +3,10 @@ import fs from "node:fs"
 import path from "node:path"
 import assert from "node:assert/strict"
 import { spawnSync } from "node:child_process"
-const root = path.resolve(".local-tests/content-boundary")
+const root = path.resolve(`.local-tests/content-boundary-${Date.now()}`)
 fs.mkdirSync(root, { recursive: true })
 const original = "学习总结/测试-从问题到笔记.md"
+const assets = "学习总结/博客公开附件"
 const cases = [
   ["正常公开副本", false, () => {}],
   [
@@ -22,7 +23,7 @@ const cases = [
     "未批准图片",
     true,
     (d) => {
-      fs.copyFileSync(path.join(d, "assets/公开测试图.svg"), path.join(d, "assets/未批准.svg"))
+      fs.copyFileSync(path.join(d, assets, "公开测试图.svg"), path.join(d, assets, "未批准.svg"))
       fs.appendFileSync(path.join(d, original), "\n![[未批准.svg]]\n")
     },
   ],
@@ -30,14 +31,14 @@ const cases = [
     "原始简历附件",
     true,
     (d) => {
-      fs.writeFileSync(path.join(d, "assets/原始简历.pdf"), "SYNTHETIC_PRIVATE_PDF")
+      fs.writeFileSync(path.join(d, assets, "原始简历.pdf"), "SYNTHETIC_PRIVATE_PDF")
       fs.appendFileSync(path.join(d, original), "\n![[原始简历.pdf]]\n")
     },
   ],
   [
     "未引用附件",
     true,
-    (d) => fs.writeFileSync(path.join(d, "assets/无引用.png"), "SYNTHETIC_IMAGE"),
+    (d) => fs.writeFileSync(path.join(d, assets, "无引用.png"), "SYNTHETIC_IMAGE"),
   ],
   [
     "缺少公开标记",
