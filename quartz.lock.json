@@ -132,6 +132,12 @@
       "resolved": "https://github.com/quartz-community/note-properties.git",
       "commit": "353531585033528eef9faa7eb2f27e377db7fa14",
       "installedAt": "2026-03-12T19:33:36.033Z"
+    },
+    "comments": {
+      "source": "github:quartz-community/comments",
+      "resolved": "https://github.com/quartz-community/comments.git",
+      "commit": "8a76dfafc0742c1903212c4fc8e15f6fb5f9e99f",
+      "installedAt": "2026-10-20T09:13:22.187Z"
     }
   }
 }

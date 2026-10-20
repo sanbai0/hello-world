@@ -415,7 +415,68 @@ button {
   outline: 2px solid var(--secondary);
   outline-offset: 4px;
 }
+.post-navigation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+  margin: 44px 0 28px;
+}
+.post-navigation .post-neighbor.internal {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--lightgray);
+  border-radius: 8px;
+  background: transparent;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+  overflow-wrap: anywhere;
+}
+.post-navigation .post-neighbor:hover {
+  border-color: var(--secondary);
+  background: var(--highlight);
+}
+.post-navigation .next {
+  grid-column: 2;
+  text-align: right;
+}
+.neighbor-label {
+  font-size: 12px;
+  color: var(--gray);
+  font-weight: 400;
+}
+.neighbor-title {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--secondary);
+}
+.blog-comments {
+  border-top: 1px solid var(--lightgray);
+  margin: 38px 0;
+  padding-top: 24px;
+}
+.blog-comments h2 {
+  font-size: 20px;
+}
+.comments-note {
+  color: var(--gray);
+  font-size: 13px;
+  line-height: 1.8;
+}
+.blog-comments .giscus {
+  margin-top: 22px;
+}
 @media (max-width: 650px) {
+  .post-navigation {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .post-navigation .next {
+    grid-column: 1;
+    text-align: left;
+  }
   .page {
     padding: 0 22px;
   }

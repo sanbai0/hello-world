@@ -141,4 +141,24 @@ plugins:
     layout:
       position: left
       priority: 20
+  - source: github:quartz-community/comments
+    # 在 GitHub 开启 Discussions 并安装 giscus 后，填入分类 ID，再启用。
+    enabled: false
+    options:
+      provider: giscus
+      options:
+        repo: sanbai0/hello-world
+        repoId: MDEwOlJlcG9zaXRvcnkxMjU1Mzc3MzA=
+        category: Announcements
+        categoryId: ""
+        mapping: pathname
+        strict: true
+        lang: zh-CN
+        reactionsEnabled: true
+        inputPosition: top
+    order: 50
+    layout:
+      position: afterBody
+      priority: 10
+      display: all
 layout: {}

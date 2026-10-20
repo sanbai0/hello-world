@@ -1,6 +1,12 @@
 import { QuartzComponent, QuartzComponentProps } from "./types"
 import { FullSlug, resolveRelative } from "../util/path"
 import { blog } from "../../blog.settings"
+import {
+  articleSequence,
+  compareArticleDates,
+  compareSeriesOrder,
+  isPublishedArticle,
+} from "./blogArticles"
 
 const link = (p: QuartzComponentProps, slug: string) =>
   resolveRelative(p.fileData.slug!, slug as FullSlug)
@@ -51,15 +57,7 @@ export const BlogIntro: QuartzComponent = (p) => {
 export const BlogPosts: QuartzComponent = (p) => {
   if (!isLanding(p)) return null
   const archive = p.fileData.slug === "archive"
-  const pages = p.allFiles
-    .filter(
-      (f) => f.frontmatter?.publish === true && !["index", "about", "archive"].includes(f.slug!),
-    )
-    .sort(
-      (a, b) =>
-        (b.dates?.created?.getTime() ?? 0) - (a.dates?.created?.getTime() ?? 0) ||
-        a.slug!.localeCompare(b.slug!),
-    )
+  const pages = p.allFiles.filter(isPublishedArticle).sort(compareArticleDates)
   const pinned = archive
     ? []
     : pages
@@ -70,27 +68,12 @@ export const BlogPosts: QuartzComponent = (p) => {
               f.frontmatter.cssclasses.includes("pinned")),
         )
         .slice(0, blog.maxPinned)
-  const sequence = (slug: string) =>
-    Number(
-      slug
-        .split("/")
-        .pop()
-        ?.match(/^(\d+)-/)?.[1],
-    )
   const series = blog.learningSeries
     .map((item) => ({
       ...item,
       posts: pages
         .filter((f) => f.slug!.startsWith(item.path) && !pinned.includes(f))
-        .sort((a, b) => {
-          const left = sequence(a.slug!)
-          const right = sequence(b.slug!)
-          return (
-            (Number.isFinite(left) ? left : Number.MAX_SAFE_INTEGER) -
-              (Number.isFinite(right) ? right : Number.MAX_SAFE_INTEGER) ||
-            a.slug!.localeCompare(b.slug!, undefined, { numeric: true })
-          )
-        }),
+        .sort(compareSeriesOrder),
     }))
     .filter((item) => item.posts.length > 0)
   const grouped = new Set(series.flatMap((item) => item.posts))
@@ -175,7 +158,7 @@ export const BlogPosts: QuartzComponent = (p) => {
                     <p class="series-description">{item.description}</p>
                     <ol>
                       {item.posts.map((f) => {
-                        const number = sequence(f.slug!)
+                        const number = articleSequence(f.slug!)
                         const ordinal = Number.isFinite(number)
                           ? number.toString().padStart(2, "0")
                           : "·"
@@ -213,6 +196,63 @@ export const BlogPosts: QuartzComponent = (p) => {
       {!pages.length && <p>第一篇记录，正在路上。</p>}
     </section>
   )
+}
+
+export const BlogPostNavigation: QuartzComponent = (p) => {
+  if (!isPublishedArticle(p.fileData)) return null
+  const series = blog.learningSeries.find((item) => p.fileData.slug!.startsWith(item.path))
+  const articles = p.allFiles.filter(isPublishedArticle)
+  const ordered = series
+    ? articles.filter((f) => f.slug!.startsWith(series.path)).sort(compareSeriesOrder)
+    : articles
+        .filter((f) => !blog.learningSeries.some((item) => f.slug!.startsWith(item.path)))
+        .sort(compareArticleDates)
+        .reverse()
+  const index = ordered.findIndex((f) => f.slug === p.fileData.slug)
+  if (index < 0) return null
+  const previous = ordered[index - 1]
+  const next = ordered[index + 1]
+  if (!previous && !next) return null
+  return (
+    <nav class="post-navigation" aria-label={series ? `${series.name}章节导航` : "文章翻页"}>
+      {previous && (
+        <a class="internal post-neighbor previous" rel="prev" href={link(p, previous.slug!)}>
+          <span class="neighbor-label">← {series ? "上一章" : "上一篇"}</span>
+          <span class="neighbor-title">{previous.frontmatter?.title}</span>
+        </a>
+      )}
+      {next && (
+        <a class="internal post-neighbor next" rel="next" href={link(p, next.slug!)}>
+          <span class="neighbor-label">{series ? "下一章" : "下一篇"} →</span>
+          <span class="neighbor-title">{next.frontmatter?.title}</span>
+        </a>
+      )}
+    </nav>
+  )
+}
+
+export function BlogComments(component: QuartzComponent): QuartzComponent {
+  const Wrapped: QuartzComponent = (p) => {
+    const comments = p.fileData.frontmatter?.comments
+    if (!isPublishedArticle(p.fileData) || comments === false || comments === "false") return null
+    return (
+      <section class="blog-comments" aria-label="文章评论">
+        <h2>评论</h2>
+        <p class="comments-note">欢迎交流与补充。发表评论需要登录 GitHub，评论将公开显示。</p>
+        {component(p)}
+        <p class="comments-note">
+          评论未加载时，可前往{" "}
+          <a href="https://github.com/sanbai0/hello-world/discussions">GitHub 讨论区</a>。
+        </p>
+      </section>
+    )
+  }
+  Object.assign(Wrapped, {
+    css: component.css,
+    beforeDOMLoaded: component.beforeDOMLoaded,
+    afterDOMLoaded: component.afterDOMLoaded,
+  })
+  return Wrapped
 }
 
 export const BlogTOC: QuartzComponent = (p) => {

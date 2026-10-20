@@ -6,6 +6,8 @@ import {
   BlogPosts,
   BlogTOC,
   BlogFooter,
+  BlogPostNavigation,
+  BlogComments,
 } from "./quartz/components/Blog"
 import { blog } from "./blog.settings"
 import { QuartzComponent } from "./quartz/components/types"
@@ -53,7 +55,7 @@ const defaults = {
   left: [],
   right: [],
   beforeBody: [BlogIntro, ...(base.defaults.beforeBody ?? []).map(ArticleOnly), BlogTOC],
-  afterBody: [BlogPosts],
+  afterBody: [BlogPosts, BlogPostNavigation, ...(base.defaults.afterBody ?? []).map(BlogComments)],
   footer: BlogFooter,
   frame: "full-width",
 }
