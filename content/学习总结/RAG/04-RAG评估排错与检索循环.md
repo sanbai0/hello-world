@@ -1,9 +1,9 @@
 ---
 publish: true
-title: RAG 评估排错与检索循环
+title: RAG 学习 04｜评估排错与检索循环
 description: 从候选、上下文到回答分层定位 RAG 错误，理解 Hit@K、Recall@K 和无进展检索的停止条件。
 created: 2026-10-14
-modified: 2026-10-20T01:49:08.803Z
+modified: 2026-10-20
 tags:
   - RAG
   - 评估
@@ -12,7 +12,7 @@ tags:
   - 排错
 ---
 
-# RAG 评估排错与检索循环
+# RAG 学习 04｜评估排错与检索循环
 
 返回 [[学习索引]] · 前置 [[03-混合检索融合与重排序]]
 
