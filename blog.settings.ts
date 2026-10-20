@@ -5,4 +5,16 @@ export const blog = {
   github: "",
   baseUrl: "sanbai0.github.io/hello-world",
   maxPinned: 2,
+  learningSeries: [
+    {
+      name: "Agent 学习",
+      path: "学习总结/Agent/",
+      description: "从执行循环到工具、状态与验收，按顺序理解 Agent。",
+    },
+    {
+      name: "RAG 学习",
+      path: "学习总结/RAG/",
+      description: "从知识检索到切分、排序与评估，逐步建立 RAG 认识。",
+    },
+  ],
 }

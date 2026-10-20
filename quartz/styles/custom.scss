@@ -46,6 +46,10 @@ button {
   border-radius: 0;
   line-height: inherit;
 }
+.series-card a.internal,
+.series-archive.internal {
+  background: transparent;
+}
 .page header {
   margin: 0;
   padding: 30px 0;
@@ -241,6 +245,77 @@ button {
     monospace;
   margin-top: 35px;
 }
+.learning-series {
+  margin-top: 36px;
+}
+.series-archive {
+  color: var(--secondary);
+  font-size: 12px;
+  font-weight: 400;
+}
+.series-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 24px;
+  margin-top: 20px;
+}
+.series-card {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--lightgray);
+  border-radius: 8px;
+}
+.series-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 12px;
+}
+.series-heading h3 {
+  margin: 0;
+  font-size: 18px;
+}
+.series-heading > span {
+  color: var(--gray);
+  font-size: 11px;
+}
+.series-description {
+  color: var(--darkgray);
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 12px 0 16px;
+}
+.series-card ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.series-card li + li {
+  border-top: 1px solid var(--lightgray);
+}
+.series-card li a {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 10px;
+  padding: 12px 0;
+  color: var(--dark);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.series-card li a:hover {
+  color: var(--secondary);
+}
+.series-number {
+  font:
+    12px Consolas,
+    monospace;
+  color: var(--secondary);
+}
 .blog-footer {
   display: flex;
   flex-wrap: wrap;
@@ -383,6 +458,13 @@ button {
     grid-template-columns: 1fr;
     gap: 10px;
     padding: 24px 0;
+  }
+  .series-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .series-card {
+    padding: 18px;
   }
   .post-date {
     display: flex;

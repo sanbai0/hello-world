@@ -70,56 +70,146 @@ export const BlogPosts: QuartzComponent = (p) => {
               f.frontmatter.cssclasses.includes("pinned")),
         )
         .slice(0, blog.maxPinned)
-  const ordered = [...pinned, ...pages.filter((f) => !pinned.includes(f))]
+  const sequence = (slug: string) =>
+    Number(
+      slug
+        .split("/")
+        .pop()
+        ?.match(/^(\d+)-/)?.[1],
+    )
+  const series = blog.learningSeries
+    .map((item) => ({
+      ...item,
+      posts: pages
+        .filter((f) => f.slug!.startsWith(item.path) && !pinned.includes(f))
+        .sort((a, b) => {
+          const left = sequence(a.slug!)
+          const right = sequence(b.slug!)
+          return (
+            (Number.isFinite(left) ? left : Number.MAX_SAFE_INTEGER) -
+              (Number.isFinite(right) ? right : Number.MAX_SAFE_INTEGER) ||
+            a.slug!.localeCompare(b.slug!, undefined, { numeric: true })
+          )
+        }),
+    }))
+    .filter((item) => item.posts.length > 0)
+  const grouped = new Set(series.flatMap((item) => item.posts))
+  const recent = pages.filter((f) => !pinned.includes(f) && !grouped.has(f))
   let year = ""
+  const postCard = (f: (typeof pages)[number]) => {
+    const date =
+      typeof f.frontmatter?.created === "string"
+        ? f.frontmatter.created.slice(0, 10)
+        : f.dates?.created
+          ? new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Shanghai" }).format(f.dates.created)
+          : "日期待补充"
+    const nextYear = date.slice(0, 4)
+    const showYear = archive && nextYear !== year
+    year = nextYear
+    return (
+      <>
+        {showYear && <h3 class="archive-year">{year}</h3>}
+        <article class="post-card">
+          <div class="post-date">
+            <time dateTime={date}>{date.replaceAll("-", ".")}</time>
+            {pinned.includes(f) && <span class="pin">置顶</span>}
+          </div>
+          <div class="post-summary">
+            <h3>
+              <a class="internal" href={link(p, f.slug!)}>
+                {f.frontmatter?.title}
+                <span class="post-arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            </h3>
+            <p>{String(f.frontmatter?.description ?? f.description ?? "")}</p>
+            <div class="post-tags">
+              {(f.frontmatter?.tags ?? []).map((tag) => (
+                <a class="internal" href={link(p, `tags/${tag}`)}>
+                  # {tag}
+                </a>
+              ))}
+            </div>
+          </div>
+        </article>
+      </>
+    )
+  }
   return (
     <section class="blog-posts" aria-label={archive ? "文章归档" : "文章列表"}>
-      <div class="list-heading">
-        {archive ? <h1>文章归档</h1> : <h2>最近的记录</h2>}
-        <span>{pages.length.toString().padStart(2, "0")} 篇文章</span>
-      </div>
-      {ordered.map((f) => {
-        const date =
-          typeof f.frontmatter?.created === "string"
-            ? f.frontmatter.created.slice(0, 10)
-            : f.dates?.created
-              ? new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Shanghai" }).format(
-                  f.dates.created,
-                )
-              : "日期待补充"
-        const nextYear = date.slice(0, 4)
-        const showYear = archive && nextYear !== year
-        year = nextYear
-        return (
-          <>
-            {showYear && <h3 class="archive-year">{year}</h3>}
-            <article class="post-card">
-              <div class="post-date">
-                <time dateTime={date}>{date.replaceAll("-", ".")}</time>
-                {pinned.includes(f) && <span class="pin">置顶</span>}
+      {archive ? (
+        <>
+          <div class="list-heading">
+            <h1>文章归档</h1>
+            <span>{pages.length.toString().padStart(2, "0")} 篇文章</span>
+          </div>
+          {pages.map(postCard)}
+        </>
+      ) : (
+        <>
+          {pinned.length > 0 && (
+            <div class="learning-start">
+              <div class="list-heading">
+                <h2>学习导航</h2>
+                <span>{pages.length.toString().padStart(2, "0")} 篇文章</span>
               </div>
-              <div class="post-summary">
-                <h3>
-                  <a class="internal" href={link(p, f.slug!)}>
-                    {f.frontmatter?.title}
-                    <span class="post-arrow" aria-hidden="true">
-                      ↗
-                    </span>
-                  </a>
-                </h3>
-                <p>{String(f.frontmatter?.description ?? f.description ?? "")}</p>
-                <div class="post-tags">
-                  {(f.frontmatter?.tags ?? []).map((tag) => (
-                    <a class="internal" href={link(p, `tags/${tag}`)}>
-                      # {tag}
-                    </a>
-                  ))}
-                </div>
+              {pinned.map(postCard)}
+            </div>
+          )}
+          {series.length > 0 && (
+            <section class="learning-series" aria-label="按系列阅读">
+              <div class="list-heading">
+                <h2>按系列阅读</h2>
+                <a class="internal series-archive" href={link(p, "archive")}>
+                  按日期查看全部 ↗
+                </a>
               </div>
-            </article>
-          </>
-        )
-      })}
+              <div class="series-grid">
+                {series.map((item) => (
+                  <section class="series-card" aria-label={item.name}>
+                    <div class="series-heading">
+                      <h3>{item.name}</h3>
+                      <span>{item.posts.length} 篇 · 按编号阅读</span>
+                    </div>
+                    <p class="series-description">{item.description}</p>
+                    <ol>
+                      {item.posts.map((f) => {
+                        const number = sequence(f.slug!)
+                        const ordinal = Number.isFinite(number)
+                          ? number.toString().padStart(2, "0")
+                          : "·"
+                        const title = String(f.frontmatter?.title ?? "")
+                        const prefix = `${item.name} ${ordinal}｜`
+                        return (
+                          <li value={Number.isFinite(number) ? number : undefined}>
+                            <a class="internal" href={link(p, f.slug!)} aria-label={title}>
+                              <span class="series-number" aria-hidden="true">
+                                {ordinal}
+                              </span>
+                              <span>
+                                {title.startsWith(prefix) ? title.slice(prefix.length) : title}
+                              </span>
+                            </a>
+                          </li>
+                        )
+                      })}
+                    </ol>
+                  </section>
+                ))}
+              </div>
+            </section>
+          )}
+          {recent.length > 0 && (
+            <>
+              <div class="list-heading">
+                <h2>最近的记录</h2>
+              </div>
+              {recent.map(postCard)}
+            </>
+          )}
+        </>
+      )}
       {!pages.length && <p>第一篇记录，正在路上。</p>}
     </section>
   )
