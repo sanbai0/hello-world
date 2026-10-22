@@ -47,7 +47,7 @@ button {
   line-height: inherit;
 }
 .series-card a.internal,
-.series-archive.internal {
+.learning-start a.internal {
   background: transparent;
 }
 .page header {
@@ -245,41 +245,74 @@ button {
     monospace;
   margin-top: 35px;
 }
-.learning-series {
-  margin-top: 36px;
+.learning-start {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 16px;
+  margin-top: 20px;
+  font-size: 13px;
 }
-.series-archive {
-  color: var(--secondary);
+.learning-label {
+  color: var(--gray);
   font-size: 12px;
+}
+.learning-start a {
+  color: var(--secondary);
   font-weight: 400;
+  overflow-wrap: anywhere;
+}
+.learning-series {
+  margin-top: 16px;
 }
 .series-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: start;
-  gap: 24px;
-  margin-top: 20px;
+  gap: 12px;
 }
 .series-card {
   min-width: 0;
-  padding: 22px;
+  padding: 0 16px;
   border: 1px solid var(--lightgray);
   border-radius: 8px;
 }
 .series-heading {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 6px 12px;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  cursor: pointer;
+  list-style: none;
 }
-.series-heading h3 {
-  margin: 0;
-  font-size: 18px;
+.series-heading::-webkit-details-marker {
+  display: none;
 }
-.series-heading > span {
+.series-heading:focus-visible,
+.learning-start a:focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.series-name {
+  color: var(--dark);
+  font-size: 14px;
+  font-weight: 600;
+}
+.series-count {
+  margin-left: auto;
   color: var(--gray);
-  font-size: 11px;
+  font-size: 12px;
+}
+.series-chevron {
+  color: var(--secondary);
+  transition: transform 0.15s ease;
+}
+.series-card[open] .series-chevron {
+  transform: rotate(180deg);
+}
+.series-card[open] {
+  padding-bottom: 12px;
 }
 .series-description {
   color: var(--darkgray);
@@ -522,10 +555,7 @@ button {
   }
   .series-grid {
     grid-template-columns: 1fr;
-    gap: 18px;
-  }
-  .series-card {
-    padding: 18px;
+    gap: 8px;
   }
   .post-date {
     display: flex;

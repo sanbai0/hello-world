@@ -76,8 +76,7 @@ export const BlogPosts: QuartzComponent = (p) => {
         .sort(compareSeriesOrder),
     }))
     .filter((item) => item.posts.length > 0)
-  const grouped = new Set(series.flatMap((item) => item.posts))
-  const recent = pages.filter((f) => !pinned.includes(f) && !grouped.has(f))
+  const recent = pages.filter((f) => !pinned.includes(f))
   let year = ""
   const postCard = (f: (typeof pages)[number]) => {
     const date =
@@ -132,29 +131,27 @@ export const BlogPosts: QuartzComponent = (p) => {
       ) : (
         <>
           {pinned.length > 0 && (
-            <div class="learning-start">
-              <div class="list-heading">
-                <h2>学习导航</h2>
-                <span>{pages.length.toString().padStart(2, "0")} 篇文章</span>
-              </div>
-              {pinned.map(postCard)}
-            </div>
+            <nav class="learning-start" aria-label="学习导航">
+              <span class="learning-label">学习导航</span>
+              {pinned.map((f) => (
+                <a class="internal" href={link(p, f.slug!)}>
+                  {f.frontmatter?.title} <span aria-hidden="true">↗</span>
+                </a>
+              ))}
+            </nav>
           )}
           {series.length > 0 && (
             <section class="learning-series" aria-label="按系列阅读">
-              <div class="list-heading">
-                <h2>按系列阅读</h2>
-                <a class="internal series-archive" href={link(p, "archive")}>
-                  按日期查看全部 ↗
-                </a>
-              </div>
               <div class="series-grid">
                 {series.map((item) => (
-                  <section class="series-card" aria-label={item.name}>
-                    <div class="series-heading">
-                      <h3>{item.name}</h3>
-                      <span>{item.posts.length} 篇 · 按编号阅读</span>
-                    </div>
+                  <details class="series-card">
+                    <summary class="series-heading">
+                      <span class="series-name">{item.name}</span>
+                      <span class="series-count">{item.posts.length} 篇</span>
+                      <span class="series-chevron" aria-hidden="true">
+                        ⌄
+                      </span>
+                    </summary>
                     <p class="series-description">{item.description}</p>
                     <ol>
                       {item.posts.map((f) => {
@@ -178,7 +175,7 @@ export const BlogPosts: QuartzComponent = (p) => {
                         )
                       })}
                     </ol>
-                  </section>
+                  </details>
                 ))}
               </div>
             </section>
