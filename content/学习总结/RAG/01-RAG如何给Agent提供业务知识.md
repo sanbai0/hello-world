@@ -2,7 +2,7 @@
 publish: true
 title: RAG 学习 01｜如何给 Agent 提供业务知识
 description: 理解检索增强生成如何补充业务规则，以及知识检索、业务查询与实际操作之间的分工。
-created: 2026-10-13
+created: 2026-03-18
 modified: 2026-10-20
 tags:
   - RAG

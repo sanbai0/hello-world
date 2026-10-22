@@ -2,7 +2,7 @@
 publish: true
 title: Agent 学习 01｜组成与执行循环
 description: 理解模型、工具、上下文、状态与执行约束的分工，梳理一次工具调用从请求到结果回传的过程。
-created: 2026-10-13
+created: 2026-10-03
 modified: 2026-10-20
 tags:
   - Agent

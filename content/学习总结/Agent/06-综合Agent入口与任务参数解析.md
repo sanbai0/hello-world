@@ -2,7 +2,7 @@
 publish: true
 title: Agent 学习 06｜综合入口与任务参数解析
 description: 以综合聊天入口为例，理解工具选择、条件提取、默认值来源与多轮任务参数补齐。
-created: 2026-10-14
+created: 2026-10-10
 modified: 2026-10-20
 tags:
   - Agent
