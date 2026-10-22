@@ -1,6 +1,8 @@
 import { QuartzComponent, QuartzComponentProps } from "./types"
 import { FullSlug, resolveRelative } from "../util/path"
 import { blog } from "../../blog.settings"
+// @ts-ignore: inline scripts are bundled as strings
+import categoryScript from "./scripts/blogCategories.inline"
 import {
   articleSequence,
   compareArticleDates,
@@ -68,15 +70,17 @@ export const BlogPosts: QuartzComponent = (p) => {
               f.frontmatter.cssclasses.includes("pinned")),
         )
         .slice(0, blog.maxPinned)
-  const series = blog.learningSeries
-    .map((item) => ({
-      ...item,
-      posts: pages
-        .filter((f) => f.slug!.startsWith(item.path) && !pinned.includes(f))
-        .sort(compareSeriesOrder),
-    }))
-    .filter((item) => item.posts.length > 0)
   const recent = pages.filter((f) => !pinned.includes(f))
+  const categories = [
+    { id: "engineering", name: "工程实践", path: "学习总结/工程实践/", order: "date" },
+    ...blog.learningSeries.map((item) => ({
+      id: item.path.split("/").filter(Boolean).pop()!.toLowerCase(),
+      name: item.name,
+      path: item.path,
+      order: "chapter",
+    })),
+  ]
+  const categoryOf = (slug: string) => categories.find((item) => slug.startsWith(item.path))?.id
   let year = ""
   const postCard = (f: (typeof pages)[number]) => {
     const date =
@@ -91,7 +95,13 @@ export const BlogPosts: QuartzComponent = (p) => {
     return (
       <>
         {showYear && <h3 class="archive-year">{year}</h3>}
-        <article class="post-card">
+        <article
+          class="post-card"
+          data-category={categoryOf(f.slug!)}
+          data-sequence={
+            Number.isFinite(articleSequence(f.slug!)) ? articleSequence(f.slug!) : undefined
+          }
+        >
           <div class="post-date">
             <time dateTime={date}>{date.replaceAll("-", ".")}</time>
             {pinned.includes(f) && <span class="pin">置顶</span>}
@@ -140,52 +150,32 @@ export const BlogPosts: QuartzComponent = (p) => {
               ))}
             </nav>
           )}
-          {series.length > 0 && (
-            <section class="learning-series" aria-label="按系列阅读">
-              <div class="series-grid">
-                {series.map((item) => (
-                  <details class="series-card">
-                    <summary class="series-heading">
-                      <span class="series-name">{item.name}</span>
-                      <span class="series-count">{item.posts.length} 篇</span>
-                      <span class="series-chevron" aria-hidden="true">
-                        ⌄
-                      </span>
-                    </summary>
-                    <p class="series-description">{item.description}</p>
-                    <ol>
-                      {item.posts.map((f) => {
-                        const number = articleSequence(f.slug!)
-                        const ordinal = Number.isFinite(number)
-                          ? number.toString().padStart(2, "0")
-                          : "·"
-                        const title = String(f.frontmatter?.title ?? "")
-                        const prefix = `${item.name} ${ordinal}｜`
-                        return (
-                          <li value={Number.isFinite(number) ? number : undefined}>
-                            <a class="internal" href={link(p, f.slug!)} aria-label={title}>
-                              <span class="series-number" aria-hidden="true">
-                                {ordinal}
-                              </span>
-                              <span>
-                                {title.startsWith(prefix) ? title.slice(prefix.length) : title}
-                              </span>
-                            </a>
-                          </li>
-                        )
-                      })}
-                    </ol>
-                  </details>
-                ))}
-              </div>
-            </section>
-          )}
           {recent.length > 0 && (
             <>
-              <div class="list-heading">
-                <h2>最近的记录</h2>
+              <nav class="post-categories" aria-label="文章分类" hidden>
+                {[
+                  { id: "all", name: "全部", order: "date" },
+                  ...categories.filter((item) =>
+                    recent.some((f) => categoryOf(f.slug!) === item.id),
+                  ),
+                ].map((item) => (
+                  <button
+                    type="button"
+                    data-filter={item.id}
+                    data-label={item.name}
+                    data-order={item.order}
+                    aria-pressed={item.id === "all"}
+                    aria-controls="home-post-list"
+                  >
+                    {item.name}
+                  </button>
+                ))}
+              </nav>
+              <div class="list-heading category-heading" aria-live="polite" aria-atomic="true">
+                <h2 id="home-list-title">最近的记录</h2>
+                <span id="home-list-order">按日期倒序 · {recent.length} 篇</span>
               </div>
-              {recent.map(postCard)}
+              <div id="home-post-list">{recent.map(postCard)}</div>
             </>
           )}
         </>
@@ -194,6 +184,8 @@ export const BlogPosts: QuartzComponent = (p) => {
     </section>
   )
 }
+
+BlogPosts.afterDOMLoaded = categoryScript
 
 export const BlogPostNavigation: QuartzComponent = (p) => {
   if (!isPublishedArticle(p.fileData)) return null

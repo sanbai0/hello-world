@@ -46,7 +46,6 @@ button {
   border-radius: 0;
   line-height: inherit;
 }
-.series-card a.internal,
 .learning-start a.internal {
   background: transparent;
 }
@@ -262,92 +261,51 @@ button {
   font-weight: 400;
   overflow-wrap: anywhere;
 }
-.learning-series {
-  margin-top: 16px;
-}
-.series-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: start;
-  gap: 12px;
-}
-.series-card {
-  min-width: 0;
-  padding: 0 16px;
-  border: 1px solid var(--lightgray);
-  border-radius: 8px;
-}
-.series-heading {
+.post-categories {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
-  min-height: 48px;
-  cursor: pointer;
-  list-style: none;
+  gap: 6px;
+  margin-top: 20px;
 }
-.series-heading::-webkit-details-marker {
+.post-categories[hidden],
+#home-post-list .post-card[hidden] {
   display: none;
 }
-.series-heading:focus-visible,
+.post-categories button {
+  padding: 8px 12px;
+  min-height: 44px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--darkgray);
+  font-size: 13px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.post-categories button:hover {
+  color: var(--secondary);
+  background: var(--highlight);
+}
+.post-categories button[aria-pressed="true"] {
+  color: var(--secondary);
+  background: var(--highlight);
+  border-color: var(--lightgray);
+  font-weight: 600;
+}
+.post-categories button:focus-visible,
 .learning-start a:focus-visible {
   outline: 2px solid var(--secondary);
   outline-offset: 4px;
   border-radius: 4px;
 }
-.series-name {
-  color: var(--dark);
-  font-size: 14px;
-  font-weight: 600;
+.category-heading {
+  flex-wrap: wrap;
+  gap: 8px;
 }
-.series-count {
-  margin-left: auto;
-  color: var(--gray);
+.category-heading > span {
   font-size: 12px;
-}
-.series-chevron {
-  color: var(--secondary);
-  transition: transform 0.15s ease;
-}
-.series-card[open] .series-chevron {
-  transform: rotate(180deg);
-}
-.series-card[open] {
-  padding-bottom: 12px;
-}
-.series-description {
-  color: var(--darkgray);
-  font-size: 13px;
-  line-height: 1.8;
-  margin: 12px 0 16px;
-}
-.series-card ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.series-card li + li {
-  border-top: 1px solid var(--lightgray);
-}
-.series-card li a {
-  display: grid;
-  grid-template-columns: 24px minmax(0, 1fr);
-  align-items: baseline;
-  gap: 10px;
-  padding: 12px 0;
-  color: var(--dark);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.7;
-  overflow-wrap: anywhere;
-}
-.series-card li a:hover {
-  color: var(--secondary);
-}
-.series-number {
-  font:
-    12px Consolas,
-    monospace;
-  color: var(--secondary);
+  color: var(--gray);
 }
 .blog-footer {
   display: flex;
@@ -553,9 +511,12 @@ button {
     gap: 10px;
     padding: 24px 0;
   }
-  .series-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
+  .post-categories {
+    gap: 2px;
+  }
+  .post-categories button {
+    padding-inline: 9px;
+    font-size: 12px;
   }
   .post-date {
     display: flex;
